@@ -5,7 +5,9 @@ package render
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"math"
 	"sort"
 	"strconv"
 	"strings"
@@ -286,6 +288,85 @@ func toMi(v int64) string {
 		return ZeroValue
 	}
 	return strconv.Itoa(int(client.ToMB(v)))
+}
+
+func logn(n, b float64) float64 {
+	return math.Log(n) / math.Log(b)
+}
+
+func humanateBytes(s uint64, base float64, sizes []string) string {
+	if s < 10 {
+		return fmt.Sprintf("%d B", s)
+	}
+	e := math.Floor(logn(float64(s), base))
+	suffix := sizes[int(e)]
+	val := math.Floor(float64(s)/math.Pow(base, e)*10+0.5) / 10
+	f := "%.0f"
+	if val < 10 {
+		f = "%.1f"
+	}
+
+	valStr := fmt.Sprintf(f, val)
+	valStr = strings.TrimSuffix(valStr, ".0")
+
+	return valStr + suffix
+}
+
+func humanizeBytes(v int64) string {
+	if v == 0 {
+		return ZeroValue
+	}
+	sizes := []string{"", "K", "M", "G", "T", "P", "E"}
+	return humanateBytes(uint64(v), 1024, sizes)
+}
+
+func memPct(v int64, l int64) string {
+	if l <= 0 {
+		return ""
+	}
+
+	vStr := humanizeBytes(v)
+	lStr := humanizeBytes(l)
+	pct := float64(v) / float64(l) * 100
+	pctStr := fmt.Sprintf("(%.0f%%)", pct)
+
+	return vStr + "/" + lStr + pctStr
+}
+
+func decimal(v int64) string {
+	vf := float64(v) / 1e3
+	if vf < 0 {
+		vf = 0
+	}
+	ret := ""
+	if vf < 0.01 {
+		ret = "0"
+	} else if vf < 1 {
+		ret = "." + strings.TrimPrefix(fmt.Sprintf("%.2f", vf), "0.")
+		if len(ret) == 3 && ret[1] != '0' {
+			ret = strings.TrimSuffix(ret, "0")
+		}
+	} else if vf < 10 {
+		ret = fmt.Sprintf("%.1f", vf)
+		ret = strings.TrimSuffix(ret, ".0")
+	} else {
+		ret = fmt.Sprintf("%.0f", vf)
+	}
+	return ret
+}
+
+func decimalPct(v int64, l int64) string {
+	if l <= 0 {
+		return ""
+	}
+
+	pct := float64(v) / float64(l) * 100
+
+	pctStr := fmt.Sprintf("(%.0f%%)", pct)
+	vStr := decimal(v)
+	lStr := decimal(l)
+
+	return vStr + "/" + lStr + pctStr
 }
 
 func boolPtrToStr(b *bool) string {

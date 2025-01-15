@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/derailed/k9s/internal/client"
 	"github.com/derailed/k9s/internal/model1"
 	"github.com/derailed/tcell/v2"
 	"github.com/derailed/tview"
@@ -86,12 +85,12 @@ var defaultCOHeader = model1.Header{
 	model1.HeaderColumn{Name: "STATE"},
 	model1.HeaderColumn{Name: "RESTARTS", Attrs: model1.Attrs{Align: tview.AlignRight}},
 	model1.HeaderColumn{Name: "PROBES(L:R:S)"},
-	model1.HeaderColumn{Name: "CPU", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
-	model1.HeaderColumn{Name: "CPU/RL", Attrs: model1.Attrs{Align: tview.AlignRight}},
+	// model1.HeaderColumn{Name: "CPU", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
+	// model1.HeaderColumn{Name: "CPU/RL", Attrs: model1.Attrs{Align: tview.AlignRight}},
 	model1.HeaderColumn{Name: "%CPU/R", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
 	model1.HeaderColumn{Name: "%CPU/L", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
-	model1.HeaderColumn{Name: "MEM", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
-	model1.HeaderColumn{Name: "MEM/RL", Attrs: model1.Attrs{Align: tview.AlignRight}},
+	// model1.HeaderColumn{Name: "MEM", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
+	// model1.HeaderColumn{Name: "MEM/RL", Attrs: model1.Attrs{Align: tview.AlignRight}},
 	model1.HeaderColumn{Name: "%MEM/R", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
 	model1.HeaderColumn{Name: "%MEM/L", Attrs: model1.Attrs{Align: tview.AlignRight, MX: true}},
 	model1.HeaderColumn{Name: "GPU/RL", Attrs: model1.Attrs{Align: tview.AlignRight}},
@@ -127,14 +126,14 @@ func (c Container) defaultRow(cr ContainerRes, r *model1.Row) error {
 		state,
 		restarts,
 		probe(cr.Container.LivenessProbe) + ":" + probe(cr.Container.ReadinessProbe) + ":" + probe(cr.Container.StartupProbe),
-		toMc(cur.cpu),
-		toMc(res.cpu) + ":" + toMc(res.lcpu),
-		client.ToPercentageStr(cur.cpu, res.cpu),
-		client.ToPercentageStr(cur.cpu, res.lcpu),
-		toMi(cur.mem),
-		toMi(res.mem) + ":" + toMi(res.lmem),
-		client.ToPercentageStr(cur.mem, res.mem),
-		client.ToPercentageStr(cur.mem, res.lmem),
+		// toMc(cur.cpu),
+		// toMc(res.cpu) + ":" + toMc(res.lcpu),
+		decimalPct(cur.cpu, res.cpu),
+		decimalPct(cur.cpu, res.lcpu),
+		// toMi(cur.mem),
+		// toMi(res.mem) + ":" + toMi(res.lmem),
+		memPct(cur.mem, res.mem),
+		memPct(cur.mem, res.lmem),
 		toMc(res.gpu) + ":" + toMc(res.lgpu),
 		ToContainerPorts(cr.Container.Ports),
 		AsStatus(c.diagnose(state, ready)),
