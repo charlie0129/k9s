@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/derailed/k9s/internal/client"
 	"github.com/derailed/k9s/internal/model1"
 	"github.com/derailed/tcell/v2"
 	"github.com/derailed/tview"
@@ -82,8 +81,8 @@ func (Container) Header(ns string) model1.Header {
 		model1.HeaderColumn{Name: "PROBES(L:R:S)"},
 		model1.HeaderColumn{Name: "CPU", Align: tview.AlignRight, MX: true},
 		model1.HeaderColumn{Name: "MEM", Align: tview.AlignRight, MX: true},
-		model1.HeaderColumn{Name: "CPU/R:L", Align: tview.AlignRight},
-		model1.HeaderColumn{Name: "MEM/R:L", Align: tview.AlignRight},
+		// model1.HeaderColumn{Name: "CPU/R:L", Align: tview.AlignRight},
+		// model1.HeaderColumn{Name: "MEM/R:L", Align: tview.AlignRight},
 		model1.HeaderColumn{Name: "%CPU/R", Align: tview.AlignRight, MX: true},
 		model1.HeaderColumn{Name: "%CPU/L", Align: tview.AlignRight, MX: true},
 		model1.HeaderColumn{Name: "%MEM/R", Align: tview.AlignRight, MX: true},
@@ -117,14 +116,14 @@ func (c Container) Render(o interface{}, name string, r *model1.Row) error {
 		state,
 		restarts,
 		probe(co.Container.LivenessProbe) + ":" + probe(co.Container.ReadinessProbe) + ":" + probe(co.Container.StartupProbe),
-		toMc(cur.cpu),
-		toMi(cur.mem),
-		toMc(res.cpu) + ":" + toMc(res.lcpu),
-		toMi(res.mem) + ":" + toMi(res.lmem),
-		client.ToPercentageStr(cur.cpu, res.cpu),
-		client.ToPercentageStr(cur.cpu, res.lcpu),
-		client.ToPercentageStr(cur.mem, res.mem),
-		client.ToPercentageStr(cur.mem, res.lmem),
+		decimal(cur.cpu),
+		humanizeBytes(cur.mem),
+		// toMc(res.cpu) + ":" + toMc(res.lcpu),
+		// toMi(res.mem) + ":" + toMi(res.lmem),
+		decimalPct(cur.cpu, res.cpu),
+		decimalPct(cur.cpu, res.lcpu),
+		memPct(cur.mem, res.mem),
+		memPct(cur.mem, res.lmem),
 		ToContainerPorts(co.Container.Ports),
 		AsStatus(c.diagnose(state, ready)),
 		ToAge(co.Age),

@@ -104,7 +104,7 @@ func InitLogLoc() error {
 	if err := data.EnsureFullPath(appLogDir, data.DefaultDirMod); err != nil {
 		return err
 	}
-	AppLogFile = filepath.Join(appLogDir, K9sLogsFile)
+	AppLogFile = "/tmp/k9s.log"
 
 	return nil
 }
