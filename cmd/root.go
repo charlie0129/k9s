@@ -10,6 +10,9 @@ import (
 	"runtime/debug"
 	"strings"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	"github.com/derailed/k9s/internal/config/data"
 	"k8s.io/client-go/tools/clientcmd/api"
 
@@ -103,6 +106,15 @@ func run(cmd *cobra.Command, args []string) error {
 
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: file})
 	zerolog.SetGlobalLevel(parseLevel(*k9sFlags.LogLevel))
+
+	if k9sFlags.PProf != nil && *k9sFlags.PProf != "" {
+		go func() {
+			log.Info().Msgf("Starting pprof server on %s", *k9sFlags.PProf)
+			if err := http.ListenAndServe(*k9sFlags.PProf, nil); err != nil {
+				log.Error().Err(err).Msgf("PProf server failed")
+			}
+		}()
+	}
 
 	cfg, err := loadConfiguration()
 	if err != nil {
@@ -248,6 +260,12 @@ func initK9sFlags() {
 		"screen-dump-dir",
 		"",
 		"Sets a path to a dir for a screen dumps",
+	)
+	rootCmd.Flags().StringVar(
+		k9sFlags.PProf,
+		"pprof",
+		"",
+		"Start pprof http server",
 	)
 	rootCmd.Flags()
 }

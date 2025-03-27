@@ -27,6 +27,7 @@ type Flags struct {
 	Write         *bool
 	Crumbsless    *bool
 	ScreenDumpDir *string
+	PProf         *string
 }
 
 // NewFlags returns new configuration flags.
@@ -36,13 +37,14 @@ func NewFlags() *Flags {
 		LogLevel:      strPtr(DefaultLogLevel),
 		LogFile:       strPtr(AppLogFile),
 		Headless:      boolPtr(false),
-		Logoless:      boolPtr(false),
+		Logoless:      boolPtr(true),
 		Command:       strPtr(DefaultCommand),
 		AllNamespaces: boolPtr(false),
 		ReadOnly:      boolPtr(false),
 		Write:         boolPtr(false),
 		Crumbsless:    boolPtr(false),
 		ScreenDumpDir: strPtr(AppDumpsDir),
+		PProf:         strPtr(""),
 	}
 }
 
