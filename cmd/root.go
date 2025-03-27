@@ -10,8 +10,12 @@ import (
 	"os"
 	"runtime/debug"
 	"strings"
+
+	"net/http"
+	_ "net/http/pprof"
 	"time"
 
+	"github.com/anchore/grype/internal/log"
 	"github.com/derailed/k9s/internal/client"
 	"github.com/derailed/k9s/internal/color"
 	"github.com/derailed/k9s/internal/config"
@@ -106,6 +110,15 @@ func run(*cobra.Command, []string) error {
 		Level:      parseLevel(*k9sFlags.LogLevel),
 		TimeFormat: time.RFC3339,
 	})))
+
+	if k9sFlags.PProf != nil && *k9sFlags.PProf != "" {
+		go func() {
+			log.Info().Msgf("Starting pprof server on %s", *k9sFlags.PProf)
+			if err := http.ListenAndServe(*k9sFlags.PProf, nil); err != nil {
+				log.Error().Err(err).Msgf("PProf server failed")
+			}
+		}()
+	}
 
 	cfg, err := loadConfiguration()
 	if err != nil {
@@ -256,6 +269,12 @@ func initK9sFlags() {
 		"screen-dump-dir",
 		"",
 		"Sets a path to a dir for a screen dumps",
+	)
+	rootCmd.Flags().StringVar(
+		k9sFlags.PProf,
+		"pprof",
+		"",
+		"Start pprof http server",
 	)
 	rootCmd.Flags()
 }
