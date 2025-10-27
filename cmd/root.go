@@ -223,7 +223,7 @@ func initK9sFlags() {
 	rootCmd.Flags().BoolVar(
 		k9sFlags.Logoless,
 		"logoless",
-		false,
+		true,
 		"Turn K9s logo off",
 	)
 	rootCmd.Flags().BoolVar(
