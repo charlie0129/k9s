@@ -33,7 +33,7 @@ func defaultFGNodeShell() bool {
 		return a == "true"
 	}
 
-	return false
+	return true
 }
 
 // EnsureDirPath ensures a directory exist from the given path.

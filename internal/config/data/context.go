@@ -4,7 +4,6 @@
 package data
 
 import (
-	"os"
 	"sync"
 
 	"github.com/derailed/k9s/internal/client"
@@ -73,9 +72,7 @@ func (c *Context) Validate(conn client.Connection, _, clusterName string) {
 	defer c.mx.Unlock()
 
 	c.ClusterName = clusterName
-	if b := os.Getenv(envFGNodeShell); b != "" {
-		c.FeatureGates.NodeShell = defaultFGNodeShell()
-	}
+	c.FeatureGates.NodeShell = defaultFGNodeShell()
 
 	if c.Namespace == nil {
 		c.Namespace = NewNamespace()
