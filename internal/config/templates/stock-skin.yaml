@@ -1,118 +1,115 @@
 # -----------------------------------------------------------------------------
-# Stock skin
+# OneDark Skin
 # -----------------------------------------------------------------------------
+
+# Styles...
+foreground: &foreground "#e4e1d8"
+background: &background default # "#1e1e1e"
+black: &black "#080808"
+blue: &blue "#7fb7f2"
+green: &green "#c6e889"
+grey: &grey "#9ba2af"
+orange: &orange "#ffb86c"
+purple: &purple "#e08cf8"
+red: &red "#f08072"
+yellow: &yellow "#ecdf61"
+soft_yellow: &soft_yellow "#ecdfb1"
+yellow_bright: &yellow_bright "#f0e983"
 
 # Skin...
 k9s:
   body:
-    fgColor: cadetblue
-    bgColor: black
-    logoColor: orange
-    logoColorMsg: white
-    logoColorInfo: green
-    logoColorWarn: mediumvioletred
-    logoColorError: red
+    fgColor: *foreground
+    bgColor: *background
+    logoColor: *green
   prompt:
-    fgColor: cadetblue
-    bgColor: black
-    suggestColor: dodgerblue
-    border:
-      command: aqua
-      default: seagreen
-  help:
-    fgColor: cadetblue
-    bgColor: black
-    sectionColor: green
-    keyColor: dodgerblue
-    numKeyColor: fuchsia
-  frame:
-    title:
-      fgColor: aqua
-      bgColor: black
-      highlightColor: fuchsia
-      counterColor: papayawhip
-      filterColor: seagreen
-    border:
-      fgColor: dodgerblue
-      focusColor: lightskyblue
-    menu:
-      fgColor: white
-      keyColor: dodgerblue
-      numKeyColor: fuchsia
-    crumbs:
-      fgColor: black
-      bgColor: aqua
-      activeColor: orange
-    status:
-      newColor: lightskyblue
-      modifyColor: greenyellow
-      addColor: dodgerblue
-      pendingColor: darkorange
-      errorColor: orangered
-      highlightColor: aqua
-      killColor: mediumpurple
-      completedColor: lightslategray
+    fgColor: *foreground
+    bgColor: *background
+    suggestColor: *orange
   info:
-    sectionColor: white
-    fgColor: orange
-  views:
-    table:
-      fgColor: aqua
-      bgColor: black
-      cursorFgColor: black
-      cursorBgColor: aqua
-      markColor: palegreen
-      header:
-        fgColor: white
-        bgColor: black
-        sorterColor: aqua
-    xray:
-      fgColor: aqua
-      bgColor: black
-      cursorColor: dodgerblue
-      cursorTextColor: black
-      graphicColor: cadetblue
-    charts:
-      bgColor: black
-      dialBgColor: black
-      chartBgColor: black
-      focusFgColor: white
-      focusBgColor: orange
-      defaultDialColors:
-      - palegreen
-      - orangered
-      defaultChartColors:
-      - palegreen
-      - orangered
-      resourceColors:
-        cpu:
-        - dodgerblue
-        - darkslateblue
-        mem:
-        - yellow
-        - goldenrod
-    yaml:
-      keyColor: steelblue
-      valueColor: papayawhip
-      colonColor: white
-    picker:
-      mainColor: white
-      focusColor: aqua
-      shortcutColor: aqua
-    logs:
-      fgColor: lightskyblue
-      bgColor: black
-      indicator:
-        fgColor: dodgerblue
-        bgColor: black
-        toggleOnColor: limegreen
-        toggleOffColor: gray
+    fgColor: *soft_yellow
+    sectionColor: *foreground
+  help:
+    fgColor: *foreground
+    bgColor: *background
+    keyColor: *yellow
+    numKeyColor: *blue
+    sectionColor: *purple
   dialog:
-    fgColor: cadetblue
-    bgColor: black
-    buttonFgColor: black
-    buttonBgColor: darkslateblue
-    buttonFocusFgColor: black
-    buttonFocusBgColor: dodgerblue
-    labelFgColor: white
-    fieldFgColor: white
+    fgColor: *foreground
+    bgColor: *background
+    buttonFgColor: *foreground
+    buttonBgColor: *green
+    buttonFocusFgColor: *black
+    buttonFocusBgColor: *blue
+    labelFgColor: *orange
+    fieldFgColor: *blue
+  frame:
+    border:
+      fgColor: *grey
+      focusColor: *green
+    menu:
+      fgColor: *foreground
+      keyColor: *soft_yellow
+      numKeyColor: *soft_yellow
+    crumbs:
+      fgColor: *black
+      bgColor: *green
+      activeColor: *yellow
+    status:
+      newColor: *foreground
+      modifyColor: *green
+      addColor: *grey
+      pendingColor: *orange
+      errorColor: *red
+      highlightColor: *yellow
+      killColor: *purple
+      completedColor: *grey
+    title:
+      fgColor: *blue
+      bgColor: *background
+      highlightColor: *purple
+      counterColor: *foreground
+      filterColor: *blue
+  views:
+    charts:
+      bgColor: *background
+      defaultDialColors:
+        - *green
+        - *red
+      defaultChartColors:
+        - *green
+        - *red
+    table:
+      fgColor: *yellow
+      bgColor: *background
+      cursorFgColor: *black
+      cursorBgColor: *blue
+      markColor: *yellow_bright
+      header:
+        fgColor: *foreground
+        bgColor: *background
+        sorterColor: *orange
+    xray:
+      fgColor: *blue
+      bgColor: *background
+      cursorColor: *foreground
+      graphicColor: *yellow_bright
+      showIcons: false
+    yaml:
+      keyColor: *soft_yellow
+      colonColor: *grey
+      valueColor: *foreground
+    logs:
+      fgColor: *foreground
+      bgColor: *background
+      indicator:
+        fgColor: *soft_yellow
+        bgColor: *background
+        toggleOnColor: *green
+        toggleOffColor: *grey
+    help:
+      fgColor: *foreground
+      bgColor: *background
+      indicator:
+        fgColor: *blue

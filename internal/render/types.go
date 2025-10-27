@@ -39,7 +39,7 @@ const (
 	MissingValue = "<none>"
 
 	// NAValue indicates a value that does not pertain.
-	NAValue = "n/a"
+	NAValue = ""
 
 	// UnknownValue represents an unknown.
 	UnknownValue = "<unknown>"

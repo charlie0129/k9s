@@ -320,9 +320,9 @@ func humanizeBytes(v int64) string {
 	return humanateBytes(uint64(v), 1024, sizes)
 }
 
-func memPct(v int64, l int64) string {
+func memPct(v, l int64) string {
 	if l <= 0 {
-		return ""
+		return humanizeBytes(v)
 	}
 
 	vStr := humanizeBytes(v)
@@ -355,9 +355,9 @@ func decimal(v int64) string {
 	return ret
 }
 
-func decimalPct(v int64, l int64) string {
+func decimalPct(v, l int64) string {
 	if l <= 0 {
-		return ""
+		return decimal(v)
 	}
 
 	pct := float64(v) / float64(l) * 100
